@@ -91,4 +91,4 @@ I created a Milestone Blog App using ReactJS.
 
 ## Demo
 
-[Milestone Blog App](https://milestone-blogapps.vercel.app/)
+[Milestone Blog App](https://blog-app-project-roan.vercel.app/)
