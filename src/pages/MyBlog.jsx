@@ -2,15 +2,18 @@ import { useEffect } from "react";
 import useBlogCall from "../hooks/useBlogCall";
 import { Helmet } from "react-helmet";
 
-import { Box, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import MyBlogCard from "../components/blog/MyBlogCard";
+import { useNavigate } from "react-router-dom";
 
 const MyBlog = () => {
   const { getBlogData } = useBlogCall();
   const { blogs } = useSelector((state) => state.blog);
   const { data } = useSelector((state) => state.auth);
-  console.log(blogs);
+  const navigate = useNavigate();
+
+  const myBlog = blogs.filter((blog) => blog.author === data.username);
 
   useEffect(() => {
     getBlogData("blogs");
@@ -28,15 +31,27 @@ const MyBlog = () => {
         mt="10px"
         p="10px"
       >
-        {blogs
-          .filter((blog) => blog.author === data.username)
-          .map((item, index) => {
+        {myBlog.length ? (
+          myBlog.map((item, index) => {
             return (
               <Grid key={index} item xs={10} md={6} lg={4} xl={3}>
                 <MyBlogCard item={item} />
               </Grid>
             );
-          })}
+          })
+        ) : (
+          <Box mt={10}>
+            <Typography align="center" color="error">
+              No Blogs Data..{" "}
+            </Typography>
+            <Button
+              onClick={() => navigate("/new-blog")}
+              sx={{ backgroundColor: "orange", mt: 5 }}
+            >
+              ADD NEW BLOG
+            </Button>
+          </Box>
+        )}
       </Grid>
     </Box>
   );
